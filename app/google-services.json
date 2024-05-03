@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "29244768860",
+    "firebase_url": "https://quotes-1b3bf-default-rtdb.firebaseio.com",
+    "project_id": "quotes-1b3bf",
+    "storage_bucket": "quotes-1b3bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29244768860:android:3d40496855c16776d6dc99",
+        "android_client_info": {
+          "package_name": "com.TimSin.quote"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg_mCGrvVTW0eb_7ktlrxAKmtuxTWtuKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29244768860:android:fa8f17e0e79c12bbd6dc99",
+        "android_client_info": {
+          "package_name": "com.sample.thequotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg_mCGrvVTW0eb_7ktlrxAKmtuxTWtuKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

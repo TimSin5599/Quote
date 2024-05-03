@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Quote</string>
+    <string name="AboutProgram">О программе</string>
+    <string name="something">Что-то</string>
+    <string name="Example">Здесь вы можете написать вашу цитату</string>
+    <string name="Add">Добавить</string>
+    <string name="EnterQuote">Введите цитату:</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="Quote">Цитата:</string>
+</resources>
