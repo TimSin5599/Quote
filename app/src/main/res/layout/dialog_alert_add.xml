@@ -4,45 +4,81 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:padding="10dp"
-    android:background="#4C5A73">
+    style="@style/CustomDialogAlertAddQuote">
 
     <TextView
+        style="@style/TextStyle"
+        android:textColor="#8BB14C"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/EnterQuote"
+        android:text="@string/EnterText"
+        android:layout_marginTop="10sp"
+        android:padding="2sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
         android:textSize="20sp"/>
+
     <EditText
+        style="@style/TextStyle"
+        android:inputType="textCapSentences|textMultiLine"
         android:id="@+id/editText"
-        android:textColor="@color/blueWhite"
-        android:textColorHint="@color/blueWhite"
-        android:backgroundTint="@color/blueWhite"
-        android:hint="@string/Quote"
-        android:layout_marginTop="30sp"
+        android:hint="@string/Text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginStart="10sp"
+        />
 
-    <Button
-        android:id="@+id/buttonCancel"
+    <TextView
+        android:id="@+id/enter_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="30sp"
-        android:layout_marginTop="90dp"
-        android:textAllCaps="false"
-        android:text="@string/cancel"
-        android:backgroundTint="#6D7AC5"/>
+        android:text="@string/Enter_author"
+        android:layout_below="@+id/editText"
+        android:textColor="#8BB14C"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="10sp"
+        android:textSize="20sp"
+        />
 
-    <Button
-        android:id="@+id/buttonOK"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/edittext_author_layout_add_dialog"
+        android:inputType="textCapSentences|textMultiLine"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="90dp"
-        android:layout_marginEnd="30dp"
-        android:backgroundTint="#6D7AC5"/>
+        android:layout_below="@+id/enter_author"
+        style="@style/TextStyle"
+        android:hint="@string/Author"
+        android:layout_marginEnd="10sp"
+        android:layout_marginStart="10sp"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_add_dialog_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            android:layout_below="@+id/edittext_author_layout_add_dialog"
+            android:layout_marginTop="10sp"
+            android:layout_centerHorizontal="true"
+            >
+            <Button
+                android:id="@+id/buttonCancel"
+                style="@style/ButtonAddStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/buttonOK"
+                style="@style/ButtonAddStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150sp"
+                android:text="@string/ok" />
+        </RelativeLayout>
 
 </RelativeLayout>
