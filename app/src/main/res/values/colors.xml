@@ -6,4 +6,8 @@
     <color name="blueWhite">#D7F9FF</color>
     <color name="deepPurple">#050A30</color>
     <color name="warmGrey">#dad9db</color>
+    <color name="primaryColor">#2A2E33</color>
+    <color name="lightGreen">#D9F5CE</color>
+    <color name="grass">#00D09E</color>
+    <color name="deepGrey">#191717</color>
 </resources>
