@@ -4,8 +4,22 @@
     <string name="something">Что-то</string>
     <string name="Example">Здесь вы можете написать вашу цитату</string>
     <string name="Add">Добавить</string>
-    <string name="EnterQuote">Введите цитату:</string>
+    <string name="EnterText">Введите текст:</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="Quote">Цитата:</string>
+    <string name="cancel">Отмена</string>
+    <string name="Text">Текст:</string>
+    <string name="Change">Изменить</string>
+    <string name="changeText">Измените текст:</string>
+    <string name="search">Search</string>
+    <string name="Delete">Удалить</string>
+    <string name="unknown">Неизвестный</string>
+    <string name="Enter_author">Введите автора:</string>
+    <string name="Author">Автор:</string>
+    <string name="ChangeAuthor">Измените автора:</string>
+    <string name="anecdotes">Anecdotes</string>
+    <string name="quotes">Quotes</string>
+    <string name="list">List</string>
+    <string name="open_nav">Open Navigator Drawer</string>
+    <string name="close_nav">Close Navigator Drawer</string>
+    />
 </resources>
