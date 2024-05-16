@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="customAttrs">
+        <attr name="customSearchIcon" format="reference" />
+        <attr name="customMenuIcon" format="reference" />
+        <attr name="iconQuotes" format="reference" />
+        <attr name="iconAnecdotes" format="reference" />
+    </declare-styleable>
+</resources>
