@@ -7,8 +7,8 @@
             android:title="@string/quotes"
             android:icon="?attr/iconQuotes"
             />
-        <item android:id="@+id/AnecdotesCategory"
-            android:title="@string/anecdotes"
+        <item android:id="@+id/JokesCategory"
+            android:title="@string/jokes"
             android:icon="?attr/iconAnecdotes"
             />
     </group>
