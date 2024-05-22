@@ -16,11 +16,13 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,30 +58,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-
 
         if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
             toolbar.setNavigationIcon(R.drawable.white_menu);
         } else if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
             toolbar.setNavigationIcon(R.drawable.black_menu);
         }
-        toolbar.setNavigationOnClickListener(v -> {
-            drawerLayout.openDrawer(navigationView);
-        });
+        toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(navigationView));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
-
-/*        // For categories
-        recyclerViewCategories = findViewById(R.id.recycleViewCategories);
-        recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewCategoriesAdapter = new CategoryAdapter(this);
-        recyclerViewCategories.setAdapter(recyclerViewCategoriesAdapter);
-        recyclerViewCategoriesAdapter.addCategory("Quotes");
-        recyclerViewCategoriesAdapter.addCategory("Anecdotes");*/
 
         // For items quotes
         recyclerView = findViewById(R.id.recycleView);
@@ -92,9 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         registerForContextMenu(recyclerView);
 
         Button buttonAdd = findViewById(R.id.buttonAdd);
-        buttonAdd.setOnClickListener(view -> {
-            showCustomDialog();
-        });
+        buttonAdd.setOnClickListener(view -> showCustomDialog());
 
         databaseReference.child("Quotes").addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Case data = snapshot.getValue(Case.class);
+                    assert data != null;
                     dataList.add(new Case(data.getOwner(), data.getStatus(), data.getText(), snapshot.getKey()));
                 }
 
@@ -127,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Case data = snapshot.getValue(Case.class);
+                    assert data != null;
                     dataList.add(new Case(data.getOwner(), data.getStatus(), data.getText(), snapshot.getKey()));
                 }
 
@@ -174,19 +162,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection.
         int id = item.getItemId();
-        /*if (id == R.id.aboutProgram) {
-            *//*AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.CustomDialogAlertTheme);
+        if (id == R.id.more) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.CustomDialogAlertTheme);
             builder.setTitle("О программе")
-                    .setMessage("Данная программа создана для записи цитат")
-                    .setPositiveButton("ОК", (dialog, id1) -> {
-                        dialog.cancel();
-                    });
+                    .setMessage("Данная программа разработана недооцененным специалистом, будущим владельцем Яндекса и прочей шалупони")
+                    .setPositiveButton("ОК", (dialog, id1) -> dialog.cancel())
+                    .setCancelable(true);
             AlertDialog alertDialog = builder.create();
-            alertDialog.show();*//*
+            alertDialog.show();
             return true;
-        } else if (id == R.id.something) {
-            return true;
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -197,18 +182,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addItem(text, "0", owner, key);
         assert key != null;
         databaseReference.child(adapter.getCategory()).child(key).setValue(new Case(owner, "0", text));
-
-/*        if (recyclerView.getAdapter() == recyclerViewAnecdotesAdapter) {
-            String key = databaseReference.child("Jokes").push().getKey();
-            recyclerViewAnecdotesAdapter.addItem(text, "0", owner, key);
-            assert key != null;
-            databaseReference.child("Jokes").child(key).setValue(new Case(owner, "0", text));
-        } else if (recyclerView.getAdapter() == recyclerViewQuotesAdapter) {
-            String key = databaseReference.child("Quotes").push().getKey();
-            recyclerViewQuotesAdapter.addItem(text, "0", owner, key);
-            assert key != null;
-            databaseReference.child("Quotes").child(key).setValue(new Case(owner, "0", text));
-        }*/
     }
 
     @Override
@@ -249,9 +222,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editTextAuthor.setText(object.getOwner());
 
             Button buttonCancel = dialog1.findViewById(R.id.buttonCancelChangeDialog);
-            buttonCancel.setOnClickListener(view -> {
-                dialog1.dismiss();
-            });
+            buttonCancel.setOnClickListener(view -> dialog1.dismiss());
 
             Button buttonChange = dialog1.findViewById(R.id.buttonChangeDialog);
             buttonChange.setOnClickListener(view -> {
@@ -265,37 +236,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             dialog1.show();
         }
-
-       /* switch (item.getItemId()) {
-            case R.id.delete: // Deleting object
-                databaseReference.child(recyclerViewAdapter.getObject(position).getKey()).removeValue();
-                recyclerViewAdapter.deleteObject(position);
-                break;
-            case R.id.change: // Changing object
-                Dialog dialog1 = new Dialog(MainActivity.this);
-
-                dialog1.setContentView(R.layout.dialog_alert_change);
-                dialog1.setCancelable(true);
-
-                EditText editText = dialog1.findViewById(R.id.editTextChange);
-                editText.setText(recyclerViewAdapter.getObject(position).getValue());
-
-                Button buttonCancel = dialog1.findViewById(R.id.buttonCancelChange);
-                buttonCancel.setOnClickListener(view -> dialog1.dismiss());
-
-                Objects.requireNonNull(dialog1.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                Button buttonChange = dialog1.findViewById(R.id.buttonChange);
-                buttonChange.setOnClickListener(view -> {
-                    databaseReference.child(recyclerViewAdapter.getObject(position).getKey()).setValue(editText.getText().toString());
-                    recyclerViewAdapter.getObject(position).setValue(editText.getText().toString());
-                    dialog1.dismiss();
-                });
-
-                dialog1.show();
-
-                break;
-        }*/
         return super.onContextItemSelected(item);
     }
 
@@ -310,9 +250,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (ItemId == R.id.QuotesCategory) {
             recyclerView.setAdapter(recyclerViewQuotesAdapter);
+            AppBarLayout appBarLayout = findViewById(R.id.AppBarLayout);
+            androidx.appcompat.widget.Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
+            toolbar.setTitle("Quotes");
+            DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+            drawerLayout.closeDrawers();
             return true;
-        } else if (ItemId == R.id.AnecdotesCategory) {
+        } else if (ItemId == R.id.JokesCategory) {
             recyclerView.setAdapter(recyclerViewAnecdotesAdapter);
+            AppBarLayout appBarLayout = findViewById(R.id.AppBarLayout);
+            androidx.appcompat.widget.Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
+            toolbar.setTitle("Jokes");
+            DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+            drawerLayout.closeDrawers();
             return true;
         }
         return false;
