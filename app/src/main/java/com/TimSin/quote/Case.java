@@ -6,9 +6,6 @@ public class Case {
     private String text;
     private String key;
 
-    public Case() {
-    }
-
     public Case(String owner, String status, String text) {
         this.owner = owner;
         this.status = status;
