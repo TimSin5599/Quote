@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_gravity="center"
+android:padding="10dp"
+style="@style/CustomDialogAlertAddQuote">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        style="@style/TextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Удаление"
+        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:padding="2sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"/>
+
+
+    <TextView
+        android:id="@+id/dialog_message"
+        style="@style/TextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Удалить этот элемент?"
+        android:textSize="20sp"
+        android:layout_below="@+id/dialog_title"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <Button
+            android:id="@+id/negative_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Нет"
+            style="@style/ButtonAddStyle"/>
+
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Да"
+            android:textAllCaps="false"
+            android:layout_marginStart="150dp"
+            style="@style/ButtonAddStyle"/>
+    </RelativeLayout>
+
+</RelativeLayout>

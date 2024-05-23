@@ -38,7 +38,7 @@
 
     <style name="TextStyle">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/black</item>
+        <item name="android:textColorHint">#555555</item>
         <item name="android:backgroundTint">@color/black</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
