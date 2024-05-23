@@ -12,6 +12,9 @@ public class Case {
         this.text = text;
     }
 
+    public Case() {
+    }
+
     public String getKey() {
         return key;
     }
