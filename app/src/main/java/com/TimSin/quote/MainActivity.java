@@ -7,12 +7,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -36,10 +39,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.appcompat.widget.SearchView;
+
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView recyclerView;
-    ItemsAdapter recyclerViewQuotesAdapter;
-    ItemsAdapter recyclerViewAnecdotesAdapter;
+    ItemsAdapter recyclerViewQuotesAdapter, recyclerViewJokesAdapter, recyclerViewIdeasAdapter;
     DatabaseReference databaseReference;
 
     @Override
@@ -71,8 +76,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewAnecdotesAdapter = new ItemsAdapter(this, "Jokes");
+        recyclerViewJokesAdapter = new ItemsAdapter(this, "Jokes");
         recyclerViewQuotesAdapter = new ItemsAdapter(this, "Quotes");
+        recyclerViewIdeasAdapter = new ItemsAdapter(this, "Ideas");
         recyclerView.setAdapter(recyclerViewQuotesAdapter);
 
 
@@ -109,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Case> dataList = new ArrayList<>();
-                recyclerViewAnecdotesAdapter.clear();
+                recyclerViewJokesAdapter.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Case data = snapshot.getValue(Case.class);
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Collections.reverse(dataList);
 
                 for (Case item : dataList) {
-                    recyclerViewAnecdotesAdapter.addItem(item.getOwner(), item.getStatus(), item.getText(), item.getKey());
+                    recyclerViewJokesAdapter.addItem(item.getOwner(), item.getStatus(), item.getText(), item.getKey());
                 }
             }
 
@@ -128,6 +134,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        databaseReference.child("Ideas").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Case> dataList = new ArrayList<>();
+                recyclerViewIdeasAdapter.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Case data = snapshot.getValue(Case.class);
+                    assert data != null;
+                    dataList.add(new Case(data.getOwner(), data.getStatus(), data.getText(), snapshot.getKey()));
+                }
+
+                Collections.reverse(dataList);
+
+                for (Case item : dataList) {
+                    recyclerViewIdeasAdapter.addItem(item.getOwner(), item.getStatus(), item.getText(), item.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        // Добавляем функциональность поиска
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search_hint));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterRecyclerView(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterRecyclerView(newText);
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    private void filterRecyclerView(String query) {
+        ItemsAdapter adapter = (ItemsAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            adapter.getFilter().filter(query);
+        }
     }
 
     private void showCustomDialog() {
@@ -150,13 +214,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dialog.show();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -174,6 +231,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void addQuoteToFirebase(String text, String owner) {
+        if (text == null || text.trim().isEmpty() || owner == null || owner.trim().isEmpty()) {
+            Toast.makeText(this, "Текст и автор должны быть заполнены ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         ItemsAdapter adapter = (ItemsAdapter) recyclerView.getAdapter();
         assert adapter != null;
         String key = databaseReference.child(adapter.getCategory()).push().getKey();
@@ -203,8 +264,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int itemID = item.getItemId();
 
         if (itemID == R.id.delete) {
-            databaseReference.child(adapter.getCategory()).child(adapter.getObject(position).getKey()).removeValue();
-            adapter.deleteObject(position);
+            showDeleteConfirmationDialog(adapter, position);
         } else if (itemID == R.id.change) {
             Dialog dialog1 = new Dialog(MainActivity.this);
             dialog1.setContentView(R.layout.dialog_alert_change);
@@ -237,6 +297,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onContextItemSelected(item);
     }
 
+    private void showDeleteConfirmationDialog(ItemsAdapter adapter, int position) {
+        // Создаем билдер диалога
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Получаем LayoutInflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_alert_delete, null);
+        builder.setView(dialogView);
+
+        // Настраиваем заголовок и сообщение
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView message = dialogView.findViewById(R.id.dialog_message);
+        title.setText("Удаление");
+        message.setText("Удалить этот элемент?");
+
+        // Настраиваем кнопки
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        Button negativeButton = dialogView.findViewById(R.id.negative_button);
+
+        AlertDialog dialog = builder.create();
+
+        positiveButton.setOnClickListener(v -> {
+            databaseReference.child(adapter.getCategory()).child(adapter.getObject(position).getKey()).removeValue();
+            adapter.deleteObject(position);
+            Toast.makeText(this, "Элемент удален", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        negativeButton.setOnClickListener(v -> dialog.dismiss());
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        dialog.show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -255,10 +352,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawers();
             return true;
         } else if (ItemId == R.id.JokesCategory) {
-            recyclerView.setAdapter(recyclerViewAnecdotesAdapter);
+            recyclerView.setAdapter(recyclerViewJokesAdapter);
             AppBarLayout appBarLayout = findViewById(R.id.AppBarLayout);
             androidx.appcompat.widget.Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
             toolbar.setTitle(R.string.jokes);
+            DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+            drawerLayout.closeDrawers();
+            return true;
+        } else if (ItemId == R.id.IdeasCategory) {
+            recyclerView.setAdapter(recyclerViewIdeasAdapter);
+            AppBarLayout appBarLayout = findViewById(R.id.AppBarLayout);
+            androidx.appcompat.widget.Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
+            toolbar.setTitle(R.string.ideas);
             DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
             drawerLayout.closeDrawers();
             return true;
