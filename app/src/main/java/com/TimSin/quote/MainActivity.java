@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
 
-        // For items quotes
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewAnecdotesAdapter = new ItemsAdapter(this, "Jokes");
@@ -160,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection.
         int id = item.getItemId();
         if (id == R.id.more) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.CustomDialogAlertTheme);
@@ -252,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             recyclerView.setAdapter(recyclerViewQuotesAdapter);
             AppBarLayout appBarLayout = findViewById(R.id.AppBarLayout);
             androidx.appcompat.widget.Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
-            toolbar.setTitle("Quotes");
+            toolbar.setTitle(R.string.quotes);
             DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
             drawerLayout.closeDrawers();
             return true;
@@ -260,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             recyclerView.setAdapter(recyclerViewAnecdotesAdapter);
             AppBarLayout appBarLayout = findViewById(R.id.AppBarLayout);
             androidx.appcompat.widget.Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
-            toolbar.setTitle("Jokes");
+            toolbar.setTitle(R.string.jokes);
             DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
             drawerLayout.closeDrawers();
             return true;

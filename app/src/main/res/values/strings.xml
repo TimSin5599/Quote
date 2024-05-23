@@ -17,10 +17,10 @@
     <string name="Author">Автор:</string>
     <string name="ChangeAuthor">Измените автора:</string>
     <string name="anecdotes">Anecdotes</string>
-    <string name="quotes">Quotes</string>
+    <string name="quotes">Цитаты</string>
     <string name="list">List</string>
     <string name="open_nav">Open Navigator Drawer</string>
     <string name="close_nav">Close Navigator Drawer</string>
-    <string name="jokes">Jokes</string>
+    <string name="jokes">Анекдоты</string>
     />
 </resources>

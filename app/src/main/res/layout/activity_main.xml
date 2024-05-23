@@ -29,7 +29,7 @@
                 android:minHeight="?attr/actionBarSize"
                 android:id="@+id/toolbar"
                 android:theme="@style/ToolBarStyle"
-                app:title="Quotes">
+                app:title="@string/quotes">
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -43,6 +43,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button"
+            android:paddingRight="35dp"
+            android:paddingLeft="35dp"
             android:text="@string/Add"
             android:textAllCaps="false" />
 
