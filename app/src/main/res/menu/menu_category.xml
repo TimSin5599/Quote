@@ -11,5 +11,9 @@
             android:title="@string/jokes"
             android:icon="?attr/iconAnecdotes"
             />
+        <item android:id="@+id/IdeasCategory"
+            android:title="@string/ideas"
+            android:icon="?attr/iconAnecdotes"
+            />
     </group>
 </menu>

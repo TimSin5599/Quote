@@ -39,7 +39,7 @@
 
     <style name="TextStyle">
         <item name="android:textColor">#FAFAFA</item>
-        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColorHint">#A1A1A1</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>

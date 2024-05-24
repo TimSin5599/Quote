@@ -22,5 +22,6 @@
     <string name="open_nav">Open Navigator Drawer</string>
     <string name="close_nav">Close Navigator Drawer</string>
     <string name="jokes">Анекдоты</string>
-    />
+    <string name="ideas">Идеи</string>
+    <string name="search_hint">Поиск...</string>
 </resources>
