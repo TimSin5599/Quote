@@ -4,6 +4,7 @@
         <item name="android:windowBackground">@drawable/wallpaper_dark</item>
 <!--        <item name="actionBarStyle">@style/MyActionBar</item>-->
         <!-- Customize your dark theme here. -->
+        <item name="android:textColorHint">#A1A1A1</item>
         <item name="android:itemBackground">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="itemIconTint">@color/black</item>

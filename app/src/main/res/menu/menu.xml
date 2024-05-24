@@ -9,11 +9,6 @@
         android:title="@string/search"
         android:icon="?attr/customSearchIcon"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|ifRoom" />
-
-<!--    <item android:id="@+id/list"
-        android:title="@string/list"
-        android:icon="?attr/customMenuIcon"
         app:showAsAction="collapseActionView|ifRoom"
-        />-->
+        />
 </menu>
