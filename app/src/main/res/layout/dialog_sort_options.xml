@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="10dp"
+    style="@style/CustomDialogAlertAddQuote">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        style="@style/TextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Сортировка"
+        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:padding="2sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <Spinner
+        android:id="@+id/sort_options_spinner"
+        style="@style/CustomDialogAlertSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <Button
+        android:id="@+id/sort_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сортировать"
+        android:textAllCaps="false"
+        android:layout_below="@id/sort_options_spinner"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        style="@style/ButtonAddStyle" />
+</RelativeLayout>

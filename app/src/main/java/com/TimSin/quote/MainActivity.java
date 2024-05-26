@@ -12,8 +12,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +44,7 @@ import java.util.Objects;
 import androidx.appcompat.widget.SearchView;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class  MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView recyclerView;
     ItemsAdapter recyclerViewQuotesAdapter, recyclerViewJokesAdapter, recyclerViewIdeasAdapter;
     DatabaseReference databaseReference;
@@ -228,8 +230,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
             return true;
+        } else if (id == R.id.sort) {
+        ItemsAdapter adapter = (ItemsAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            showSortDialog(adapter);
         }
+        return true;
+    }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSortDialog(ItemsAdapter adapter) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_sort_options);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        Spinner sortSpinner = dialog.findViewById(R.id.sort_options_spinner);
+        Button sortButton = dialog.findViewById(R.id.sort_button);
+
+        // Создание адаптера для Spinner
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,
+                R.array.sort_options, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapterSpinner);
+
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selectedSort = sortSpinner.getSelectedItem().toString();
+                String[] sortOptions = getResources().getStringArray(R.array.sort_options);
+                if (adapter != null) {
+                    if (selectedSort.equals(sortOptions[0])) {
+                        adapter.sortItemsByOwnerUp();
+                    } else if (selectedSort.equals(sortOptions[1])) {
+                        adapter.sortItemsByOwnerDown();
+                    }
+                    else if (selectedSort.equals(sortOptions[2])) {
+                        adapter.sortItemsByTextUp();
+                    }
+                    else if (selectedSort.equals(sortOptions[3])) {
+                        adapter.sortItemsByTextDown();
+                    }
+
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void addQuoteToFirebase(String text, String owner) {

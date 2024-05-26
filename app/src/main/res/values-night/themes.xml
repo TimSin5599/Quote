@@ -13,6 +13,8 @@
         <item name="customMenuIcon">@drawable/white_menu</item>
         <item name="iconQuotes">@drawable/ic_quote_white</item>
         <item name="iconAnecdotes">@drawable/ic_emoji_white</item>
+        <item name="iconbulb">@drawable/ic_lightbulb_white</item>
+        <item name="iconsort">@drawable/ic_sort</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
@@ -21,6 +23,11 @@
         <item name="itemTextColor">@color/white</item>
         <item name="android:background">@color/primaryColor</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="CustomDialogAlertSpinner">
+        <item name="android:popupBackground">@color/primaryColor</item>
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="ToolBarStyle">

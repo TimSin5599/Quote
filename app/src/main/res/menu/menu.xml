@@ -11,4 +11,12 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom"
         />
+
+
+    <item android:id="@+id/sort"
+        android:title="@string/sort"
+        android:icon="?attr/iconsort"
+        app:showAsAction="always"
+        />
+
 </menu>
