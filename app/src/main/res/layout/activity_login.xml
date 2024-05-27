@@ -20,8 +20,8 @@
         android:layout_marginEnd="10dp" />
 
     <EditText
-        android:id="@+id/testpass"
-        android:hint="Пароль"
+        android:id="@+id/login"
+        android:hint="Почта"
         style="@style/TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,16 +30,86 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp" />
 
-    <Button
-        android:id="@+id/ok_button"
+    <EditText
+        android:id="@+id/password"
+        android:hint="Пароль"
+        style="@style/TextStyle"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Войти"
+        android:layout_below="@id/login"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <EditText
+        android:enabled="false"
+        android:visibility="invisible"
+        android:id="@+id/password_two"
+        android:hint="Подтвердите пароль"
+        style="@style/TextStyle"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <Button
+        android:enabled="false"
+        android:visibility="invisible"
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Зарегистрироваться"
         android:textAllCaps="false"
-        android:layout_below="@id/testpass"
+        android:layout_below="@id/password_two"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         style="@style/ButtonAddStyle" />
+
+    <Button
+        android:enabled="true"
+        android:visibility="visible"
+        android:id="@+id/button_auth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Войти"
+        android:textAllCaps="false"
+        android:layout_below="@id/password"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        style="@style/ButtonAddStyle" />
+
+    <TextView
+        android:enabled="true"
+        android:visibility="visible"
+        android:id="@+id/textview_noacc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_auth"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="Нет аккаунта"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:enabled="false"
+        android:visibility="gone"
+        android:id="@+id/textview_acc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_register"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="Войти"
+        android:gravity="center"
+        />
+
 </RelativeLayout>

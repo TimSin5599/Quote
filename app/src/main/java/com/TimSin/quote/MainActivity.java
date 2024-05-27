@@ -1,6 +1,8 @@
 package com.TimSin.quote;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -65,6 +67,23 @@ public class  MainActivity extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SharedPreferences preferences = getSharedPreferences("AUTH_PREFS", MODE_PRIVATE);
+        String userRoom = preferences.getString("user_room", null);
+        String userEmail = preferences.getString("user_email", null);
+        if (userEmail == null || userRoom == null) {
+            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user_room", null);
+            editor.putString("user_email", null);
+            editor.apply();
+            finish();
+        }
+
+        TextView text_room = findViewById(R.id.text_room);
+        TextView text_login = findViewById(R.id.text_login);
+        text_room.setText(userRoom);
+        text_login.setText(userEmail);
+
 
         if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
             toolbar.setNavigationIcon(R.drawable.white_menu);
@@ -74,7 +93,7 @@ public class  MainActivity extends AppCompatActivity implements NavigationView.O
         toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(navigationView));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference();
+        databaseReference = database.getReference("Rooms").child(userRoom);
 
         // For items quotes
         recyclerView = findViewById(R.id.recycleView);
