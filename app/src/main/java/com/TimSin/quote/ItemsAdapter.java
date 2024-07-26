@@ -43,6 +43,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         Case item = filteredData.get(position);
         holder.textView.setText(item.getText());
         holder.owner.setText(item.getOwner());
+        if (Objects.equals(item.getStatus(), "1")) {
+            holder.buttonStar.setBackgroundResource(R.drawable.star_gold);
+        } else {
+            holder.buttonStar.setBackgroundResource(R.drawable.star_grey);
+        }
 
         holder.itemView.setOnLongClickListener(view -> {
             setPosition(position);
@@ -167,14 +172,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
             buttonStar.setOnClickListener(view -> {
                 int position = getAdapterPosition();
+//                String category = getCategory();
                 Case item = filteredData.get(position);
 
                 if (Objects.equals(item.getStatus(), "0")) {
-                    buttonStar.setBackgroundResource(R.drawable.star_gold);
-                    item.setStatus("1");
+//                    buttonStar.setBackgroundResource(R.drawable.star_gold);
+                    ((MainActivity) itemView.getContext()).changeItemStatus(position, new Case(item.getOwner(), "1", item.getText()));
+
+
                 } else {
-                    buttonStar.setBackgroundResource(R.drawable.star_grey);
-                    item.setStatus("0");
+//                    buttonStar.setBackgroundResource(R.drawable.star_grey);
+                    ((MainActivity) itemView.getContext()).changeItemStatus(position, new Case(item.getOwner(), "0", item.getText()));
                 }
             });
         }

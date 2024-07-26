@@ -109,6 +109,29 @@ public class  MainActivity extends AppCompatActivity implements NavigationView.O
         Button buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(view -> showCustomDialog());
 
+        Button logoutBtn = findViewById(R.id.logoutBtn);
+        Button changeRoomBtn = findViewById(R.id.changeRoomBtn);
+
+        logoutBtn.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user_email", null);
+            editor.apply();
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+            finish();
+        });
+
+
+        changeRoomBtn.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user_room", null);
+            editor.apply();
+            Intent intent = new Intent(MainActivity.this, Rooms.class);
+            startActivity(intent);
+            finish();
+        });
+
+
         databaseReference.child("Quotes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -403,6 +426,13 @@ public class  MainActivity extends AppCompatActivity implements NavigationView.O
         }
 
         dialog.show();
+    }
+
+
+    public void changeItemStatus(int position, Case item) {
+        ItemsAdapter adapter = (ItemsAdapter) recyclerView.getAdapter();
+        assert adapter != null;
+        databaseReference.child(adapter.getCategory()).child(adapter.getObject(position).getKey()).setValue(item);
     }
 
     @Override
