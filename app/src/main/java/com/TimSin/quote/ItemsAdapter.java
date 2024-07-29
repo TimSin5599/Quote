@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         Case item = filteredData.get(position);
         holder.textView.setText(item.getText());
         holder.owner.setText(item.getOwner());
+        if (Objects.equals(item.getStatus(), "1")) {
+            holder.buttonStar.setBackgroundResource(R.drawable.star_gold);
+        } else {
+            holder.buttonStar.setBackgroundResource(R.drawable.star_grey);
+        }
 
         holder.itemView.setOnLongClickListener(view -> {
             setPosition(position);
@@ -49,6 +55,30 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         });
 
         holder.itemView.setOnClickListener(view -> setPosition(position));
+    }
+
+    public void sortItemsByOwnerUp() {
+        Collections.sort(data, (o1, o2) -> o1.getOwner().compareToIgnoreCase(o2.getOwner()));
+        Collections.sort(filteredData, (o1, o2) -> o1.getOwner().compareToIgnoreCase(o2.getOwner()));
+        notifyDataSetChanged();
+    }
+
+    public void sortItemsByOwnerDown() {
+        Collections.sort(data, (o1, o2) -> o2.getOwner().compareToIgnoreCase(o1.getOwner()));
+        Collections.sort(filteredData, (o1, o2) -> o2.getOwner().compareToIgnoreCase(o1.getOwner()));
+        notifyDataSetChanged();
+    }
+
+    public void sortItemsByTextUp() {
+        Collections.sort(data, (o1, o2) -> o1.getText().compareToIgnoreCase(o2.getText()));
+        Collections.sort(filteredData, (o1, o2) -> o1.getText().compareToIgnoreCase(o2.getText()));
+        notifyDataSetChanged();
+    }
+
+    public void sortItemsByTextDown() {
+        Collections.sort(data, (o1, o2) -> o2.getText().compareToIgnoreCase(o1.getText()));
+        Collections.sort(filteredData, (o1, o2) -> o2.getText().compareToIgnoreCase(o1.getText()));
+        notifyDataSetChanged();
     }
 
     private void setPosition(int position) {
@@ -142,14 +172,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
             buttonStar.setOnClickListener(view -> {
                 int position = getAdapterPosition();
+//                String category = getCategory();
                 Case item = filteredData.get(position);
 
                 if (Objects.equals(item.getStatus(), "0")) {
-                    buttonStar.setBackgroundResource(R.drawable.star_gold);
-                    item.setStatus("1");
+//                    buttonStar.setBackgroundResource(R.drawable.star_gold);
+                    ((MainActivity) itemView.getContext()).changeItemStatus(position, new Case(item.getOwner(), "1", item.getText()));
+
+
                 } else {
-                    buttonStar.setBackgroundResource(R.drawable.star_grey);
-                    item.setStatus("0");
+//                    buttonStar.setBackgroundResource(R.drawable.star_grey);
+                    ((MainActivity) itemView.getContext()).changeItemStatus(position, new Case(item.getOwner(), "0", item.getText()));
                 }
             });
         }

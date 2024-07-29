@@ -4,6 +4,7 @@
         <item name="android:itemBackground">@color/white</item>
         <item name="android:windowBackground">@drawable/wallpaper</item>
         <!-- Customize your light theme here. -->
+        <item name="android:textColorHint">#A1A1A1</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
@@ -13,6 +14,8 @@
         <item name="customMenuIcon">@drawable/black_menu</item>
         <item name="iconQuotes">@drawable/ic_quote_black</item>
         <item name="iconAnecdotes">@drawable/ic_emoji_black</item>
+        <item name="iconbulb">@drawable/ic_lightbulb_black</item>
+        <item name="iconsort">@drawable/ic_sort_black</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
@@ -21,6 +24,11 @@
         <item name="itemIconTint">@color/black</item>
         <item name="itemTextColor">@color/black</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="CustomDialogAlertSpinner">
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:backgroundTint">@color/black</item>
     </style>
 
     <style name="OverflowStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
@@ -44,7 +52,7 @@
     </style>
 
     <style name="ButtonAddStyle">
-        <item name="android:backgroundTint">#DFF7E2</item>
+        <item name="android:backgroundTint">#DEDFF7E2</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">#000000</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>

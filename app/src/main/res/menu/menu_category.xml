@@ -13,7 +13,9 @@
             />
         <item android:id="@+id/IdeasCategory"
             android:title="@string/ideas"
-            android:icon="?attr/iconAnecdotes"
+            android:icon="?attr/iconbulb"
             />
     </group>
+
+
 </menu>

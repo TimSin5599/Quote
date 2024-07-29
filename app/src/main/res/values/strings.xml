@@ -24,4 +24,11 @@
     <string name="jokes">Анекдоты</string>
     <string name="ideas">Идеи</string>
     <string name="search_hint">Поиск...</string>
+    <string name="sort">Sort</string>
+    <string-array name="sort_options">
+        <item>Сортировать по владельцу (а-я)</item>
+        <item>Сортировать по владельцу (я-а)</item>
+        <item>Сортировать по тексту (а-я)</item>
+        <item>Сортировать по тексту (я-а)</item>
+    </string-array>
 </resources>

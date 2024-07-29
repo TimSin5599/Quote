@@ -1,6 +1,8 @@
 package com.TimSin.quote;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,8 +14,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +46,7 @@ import java.util.Objects;
 import androidx.appcompat.widget.SearchView;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class  MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView recyclerView;
     ItemsAdapter recyclerViewQuotesAdapter, recyclerViewJokesAdapter, recyclerViewIdeasAdapter;
     DatabaseReference databaseReference;
@@ -63,6 +67,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SharedPreferences preferences = getSharedPreferences("AUTH_PREFS", MODE_PRIVATE);
+        String userRoom = preferences.getString("user_room", null);
+        String userEmail = preferences.getString("user_email", null);
+        if (userEmail == null || userRoom == null) {
+            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user_room", null);
+            editor.putString("user_email", null);
+            editor.apply();
+            finish();
+        }
+
+        TextView text_room = findViewById(R.id.text_room);
+        TextView text_login = findViewById(R.id.text_login);
+        text_room.setText(userRoom);
+        text_login.setText(userEmail);
+
 
         if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
             toolbar.setNavigationIcon(R.drawable.white_menu);
@@ -72,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(navigationView));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference();
+        databaseReference = database.getReference("Rooms").child(userRoom);
 
         // For items quotes
         recyclerView = findViewById(R.id.recycleView);
@@ -87,6 +108,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Button buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(view -> showCustomDialog());
+
+        Button logoutBtn = findViewById(R.id.logoutBtn);
+        Button changeRoomBtn = findViewById(R.id.changeRoomBtn);
+
+        logoutBtn.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user_email", null);
+            editor.apply();
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+            finish();
+        });
+
+
+        changeRoomBtn.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user_room", null);
+            editor.apply();
+            Intent intent = new Intent(MainActivity.this, Rooms.class);
+            startActivity(intent);
+            finish();
+        });
+
 
         databaseReference.child("Quotes").addValueEventListener(new ValueEventListener() {
             @Override
@@ -228,8 +272,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
             return true;
+        } else if (id == R.id.sort) {
+        ItemsAdapter adapter = (ItemsAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            showSortDialog(adapter);
         }
+        return true;
+    }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSortDialog(ItemsAdapter adapter) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_sort_options);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        Spinner sortSpinner = dialog.findViewById(R.id.sort_options_spinner);
+        Button sortButton = dialog.findViewById(R.id.sort_button);
+
+        // Создание адаптера для Spinner
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,
+                R.array.sort_options, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapterSpinner);
+
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selectedSort = sortSpinner.getSelectedItem().toString();
+                String[] sortOptions = getResources().getStringArray(R.array.sort_options);
+                if (adapter != null) {
+                    if (selectedSort.equals(sortOptions[0])) {
+                        adapter.sortItemsByOwnerUp();
+                    } else if (selectedSort.equals(sortOptions[1])) {
+                        adapter.sortItemsByOwnerDown();
+                    }
+                    else if (selectedSort.equals(sortOptions[2])) {
+                        adapter.sortItemsByTextUp();
+                    }
+                    else if (selectedSort.equals(sortOptions[3])) {
+                        adapter.sortItemsByTextDown();
+                    }
+
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void addQuoteToFirebase(String text, String owner) {
@@ -334,6 +426,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         dialog.show();
+    }
+
+
+    public void changeItemStatus(int position, Case item) {
+        ItemsAdapter adapter = (ItemsAdapter) recyclerView.getAdapter();
+        assert adapter != null;
+        databaseReference.child(adapter.getCategory()).child(adapter.getObject(position).getKey()).setValue(item);
     }
 
     @Override

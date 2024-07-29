@@ -5,5 +5,7 @@
         <attr name="customMenuIcon" format="reference" />
         <attr name="iconQuotes" format="reference" />
         <attr name="iconAnecdotes" format="reference" />
+        <attr name="iconbulb" format="reference" />
+        <attr name="iconsort" format="reference" />
     </declare-styleable>
 </resources>
