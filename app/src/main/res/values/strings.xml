@@ -3,7 +3,7 @@
     <string name="AboutProgram">О программе</string>
     <string name="something">Что-то</string>
     <string name="Example">Здесь вы можете написать вашу цитату</string>
-    <string name="Add">Добавить</string>
+    <string name="Add">+</string>
     <string name="EnterText">Введите текст:</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>

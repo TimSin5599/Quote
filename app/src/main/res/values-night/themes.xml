@@ -53,8 +53,15 @@
     </style>
 
     <style name="ButtonAddStyle">
-        <item name="android:backgroundTint">#DE8BB14C</item>
+        <item name="android:backgroundTint">@color/itemsColor</item>
         <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="circleButtonStyle">
+        <item name="android:backgroundTint">@color/itemsColor</item>
+        <item name="android:background">@drawable/circle_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
